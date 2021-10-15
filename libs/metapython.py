@@ -3,6 +3,7 @@ try:
     import scipy
     from scipy import stats
     import matplotlib.pyplot as plt
+    import statsmodels.api as sm
 except:
     pass
 
@@ -23,6 +24,7 @@ class metapython:
         if datatype == 1:
             self.es = np.log(val)
             self.var = (np.log(ulimit / llimit) / 3.92) ** 2
+            self.se = np.sqrt(self.var)
 
         else:  # todo: make other datatypes, later
             pass
@@ -82,13 +84,18 @@ class metapython:
         self.i2 = (self.q - self.df) / self.q * 100
         return self.i2
 
-    def meta_egger(self):
+    def meta_funnel_val(self):
         """
-        Egger p-value
+        website: https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/pub-bias.html
+        Asymmetry test with using funnel plot
         :return: P-value (val)
         """
-        plt.plot()
-        pass
+        x = 1/self.se
+        y = self.es/self.se
+        x2 = sm.add_constant(x)
+        est = sm.OLS(y, x2)
+        est2 = est.fit()
+        return est2.f_pvalue
 
     def print(self):
         print(self.es, self.var)
