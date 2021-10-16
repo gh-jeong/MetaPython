@@ -84,18 +84,22 @@ class metapython:
         self.i2 = (self.q - self.df) / self.q * 100
         return self.i2
 
-    def meta_funnel_val(self):
+    def meta_publication_bias(self, type="Egger"):
         """
         website: https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/pub-bias.html
         Asymmetry test with using funnel plot
         :return: P-value (val)
         """
-        x = 1/self.se
-        y = self.es/self.se
-        x2 = sm.add_constant(x)
-        est = sm.OLS(y, x2)
-        est2 = est.fit()
-        return est2.f_pvalue
+        if type == "Egger":
+            x = 1 / self.se
+            y = self.es / self.se
+            x2 = sm.add_constant(x)
+            est = sm.OLS(y, x2)
+            est2 = est.fit()
+            result_egger = est2.pvalues[0]
+            return result_egger
+        else:
+            pass  # todo: Find out to add Begg's or else
 
     def print(self):
         print(self.es, self.var)
