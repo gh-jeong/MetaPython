@@ -28,3 +28,7 @@
 
 2. Meta-analysis using R
 - https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/
+
+### [Useful stackflow code for the project]
+1. Contour funnel plot:
+- https://stackoverflow.com/questions/65262690/creating-a-contour-enhanced-funnel-plot-in-python
